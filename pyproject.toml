@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "niv"
+version = "0.1.0"
+description = "An extensible CLI for transforming files and data."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "typer==0.15.2",
+    "polars==1.27.1",
+]
+
+# Defines optional dependencies for developoment.
+# To install them, you would run: uv pip install -e .
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.6.7",
+    "debugpy==1.8.15",
+    "pyright==1.1.404"
+]
+
+# This is the crucial part that creates the 'niv' command
+# It tells the installer to create a script named 'niv' that
+# calls the 'app' object inside the 'cli.main' module.Add your description here"
+[project.scripts]
+niv = "cli.main:app"
+
+# Explicitly tell the build tool which directory contains your package
+[tool.hatch.build.targets.wheel]
+packages = ["cli"]
