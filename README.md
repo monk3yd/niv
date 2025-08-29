@@ -1,0 +1,3 @@
+```
+uv pip install -e .
+```
