@@ -41,6 +41,8 @@
         propagatedBuildInputs = with pkgs.python312.pkgs; [
           typer
           polars
+          openpyxl
+          xlsxwriter
         ];
 
         # Explicitly build the wheel into a 'dist' directory.
