@@ -11,6 +11,8 @@ requires-python = ">=3.12"
 dependencies = [
     "typer==0.15.2",
     "polars==1.27.1",
+    "openpyxl==3.1.5",
+    "xlsxwriter==3.2.2"
 ]
 
 # Defines optional dependencies for developoment.
