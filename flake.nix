@@ -40,6 +40,7 @@
         # Tell Nix which Python dependencies are required to run the application
         propagatedBuildInputs = with pkgs.python312.pkgs; [
           typer
+          pandas
           polars
           openpyxl
           xlsxwriter

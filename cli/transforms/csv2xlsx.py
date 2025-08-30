@@ -1,5 +1,6 @@
 import polars as pl
 
+
 def transform(input_file: str, output_file: str):
     """
     Converts a CSV file to an XLSX (Excel) file.

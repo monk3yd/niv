@@ -37,6 +37,7 @@ def _command_factory(name: str, transform_func: Callable):
     This is necessary to genrate a CLI with dynamic subcommands where
     each can have its own help text and parameters.
     """
+
     def command(
         input_file: Annotated[
             str,
