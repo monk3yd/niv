@@ -111,6 +111,7 @@
                 python312Packages.black
                 python312Packages.ruff
                 python312Packages.reuse
+                visidata
                 niv-package
               ];
 
