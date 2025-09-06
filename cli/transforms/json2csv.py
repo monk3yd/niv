@@ -1,4 +1,5 @@
 import polars as pl
+from tqdm import tqdm
 
 
 def transform(input_file: str, output_file: str):
@@ -27,6 +28,24 @@ def transform(input_file: str, output_file: str):
     if struct_columns:
         df = df.unnest(struct_columns)
 
+    # Write the DataFrame to CSV in chuncks with a progres bar.
+    total_rows = len(df)
+    batch_size = 50000  # Adjust based on memory/performance
+
+    with open(output_file, "wb") as file:
+        # Manually write the header first.
+        header_df = df.head(0)
+        header_df.write_csv(file)
+
+        # Iterate over the DataFrame in chunks (slices) and write them.
+        with tqdm(total=total_rows, desc="Writing CSV", unit=" rows") as pbar:
+            for offset in range(0, total_rows, batch_size):
+                batch_df = df.slice(offset, batch_size)
+
+                # Write each batch without the header.
+                batch_df.write_csv(file, include_header=False)
+                pbar.update(len(batch_df))
+
     # Write the fully flattened DataFrame to the CSV file.
-    df.write_csv(output_file)
+    # df.write_csv(output_file)
 
