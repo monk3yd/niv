@@ -14,7 +14,9 @@ dependencies = [
     "polars==1.27.1",
     "openpyxl==3.1.5",
     "xlsxwriter==3.2.2",
-    "tqdm"
+    "tqdm",
+    "flatten-json",
+    "orjson"
 ]
 
 # Defines optional dependencies for developoment.

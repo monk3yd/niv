@@ -45,6 +45,8 @@
           openpyxl
           xlsxwriter
           tqdm
+          flatten-json
+          orjson
         ];
 
         # Explicitly build the wheel into a 'dist' directory.
