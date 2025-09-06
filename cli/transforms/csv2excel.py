@@ -8,5 +8,3 @@ def transform(input_path: str, output_path: str):
 
     # Write to Excel file
     df.to_excel(output_path, index=False, engine="openpyxl")
-
-
