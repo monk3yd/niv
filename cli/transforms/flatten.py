@@ -19,11 +19,13 @@ def transform(input_file: str, output_file: str):
     if isinstance(data, list):
         # Process a list of objects with a progress bar.
         for row in tqdm(data, desc="Flattening JSON", unit=" rows"):
-            all_flattened_data.append(flatten(row))
+            all_flattened_data.append(flatten(row, separator="."))
+
     elif isinstance(data, dict):
         # Process a single JSON object.
         print("Input is a single JSON object; flattening...")
         all_flattened_data.append(flatten(data))
+
     else:
         # Handle cases where the input is not valid JSON.
         raise TypeError("Input JSON must be an object or a list of objects.")
