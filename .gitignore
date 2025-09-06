@@ -3,5 +3,4 @@
 items.json
 items.csv
 items.xlsx
-cli/__pycache/
-cli/transforms/__pycache/
+__pycache__/
