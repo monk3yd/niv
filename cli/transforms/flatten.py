@@ -1,47 +1,31 @@
-import json
+import polars as pl
 
 
-def transform(input_path: str, output_path: str):
+def transform(input_file: str, output_file: str):
+    """
+    Flattens a JSON or JSON Lines file by handling both nested objects (structs)
+    and nested lists (arrays).
+    """
+    # Use Polars' robust read_json function to load the data.
+    df = pl.read_json(input_file)
 
-    def flatten_json(nested_json, separator='.'):
-        """
-        Flattens a nested JSON (dictionary) object.
+    # --- STEP 1: Handle nested lists (arrays) ---
+    # Find all columns that contain lists.
+    list_columns = [col for col in df.columns if isinstance(df[col].dtype, pl.List)]
 
-        Args:
-            nested_json (dict): The nested dictionary to flatten.
-            separator (str): The separator to use between keys.
+    # If any list columns are found, explode them.
+    # This creates a new row for each item in a list, duplicating other values.
+    if list_columns:
+        df = df.explode(list_columns)
 
-        Returns:
-            dict: A flattened dictionary.
-        """
-        flat_dict = {}
+    # --- STEP 2: Handle nested objects (structs) ---
+    # After exploding, it's possible new struct columns exist or were already there.
+    # We check for them again.
+    struct_columns = [col for col in df.columns if isinstance(df[col].dtype, pl.Struct)]
 
-        def _flatten(obj, parent_key=''):
-            if isinstance(obj, dict):
-                for key, value in obj.items():
-                    new_key = f"{parent_key}{separator}{key}" if parent_key else key
-                    _flatten(value, new_key)
-            elif isinstance(obj, list):
-                # Iterate through list items and create an indexed key for each
-                for i, item in enumerate(obj):
-                    new_key = f"{parent_key}{separator}{i}" if parent_key else str(i)
-                    _flatten(item, new_key)
-            else:
-                # Assign the value to the flattened key
-                if parent_key:
-                    flat_dict[parent_key] = obj
+    # If any struct columns are found, unnest them into new columns.
+    if struct_columns:
+        df = df.unnest(struct_columns)
 
-        _flatten(nested_json)
-        return flat_dict
-
-    with open(input_path, "r", encoding="utf-8") as file:
-        nested_json = json.load(file)
-
-    flattened_data_list = [flatten_json(json_obj) for json_obj in nested_json]
-
-    # Print the flattened list of JSON objects
-    print(json.dumps(flattened_data_list, indent=2, ensure_ascii=False))
-
-    with open(output_path, "w", encoding="utf-8") as file:
-        json.dump(flattened_data_list, file, indent=2, ensure_ascii=False)
-
+    # Write the fully flattened DataFrame to the output JSON file.
+    df.write_json(output_file, row_oriented=True)

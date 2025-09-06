@@ -44,6 +44,7 @@
           polars
           openpyxl
           xlsxwriter
+          tqdm
         ];
 
         # Explicitly build the wheel into a 'dist' directory.
