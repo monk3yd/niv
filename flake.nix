@@ -106,9 +106,6 @@
                 };
               };
 
-              # https://devenv.sh/supported-languages/terraform/#languagesterraformenable
-              # languages.terraform.enable = true;
-
               packages = with pkgs; [
                 python312Packages.isort
                 python312Packages.black

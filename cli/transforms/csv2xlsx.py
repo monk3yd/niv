@@ -1,24 +1,8 @@
-# import xlsxwriter
-# import polars as pl
-#
-#
-# def transform(input_file: str, output_file: str):
-#     """
-#     Converts a CSV file to an XLSX (Excel) file.
-#     """
-#
-#     # Read the source CSV file into a Polars DataFrame.
-#     df = pl.read_csv(input_file, infer_schema_length=100000)
-#
-#     with xlsxwriter.Workbook(output_file, {"strings_to_urls": False, "use_zip64": True}) as workbook:
-#         # Write the DataFrame to the specified output XLSX file.
-#         # This requires an engine like 'xlsx2csv' or 'openpyxl'.
-#         df.write_excel(workbook=workbook)
-
 import polars as pl
 import xlsxwriter
 import subprocess
 from tqdm import tqdm
+
 
 def transform(input_file: str, output_file: str):
     """

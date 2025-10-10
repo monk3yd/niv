@@ -14,7 +14,7 @@ uv pip install -e .
 - [x] json2csv
 - [x] csv2xlsx
 - [x] aggregate (JSON)
-- [ ] xlsx2csv
+- [x] xlsx2csv
 - [ ] docx2txt
 - [ ] docx2markdown
 - [ ] dir2s3
