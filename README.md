@@ -18,3 +18,4 @@ uv pip install -e .
 - [ ] docx2txt
 - [ ] docx2markdown
 - [ ] dir2s3
+- [ ] bootstrap project structure
