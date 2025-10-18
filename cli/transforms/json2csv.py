@@ -8,7 +8,7 @@ def transform(input_file: str, output_file: str):
     objects (structs) and nested lists (arrays).
     """
     # Use Polars' robust read_json function to load the data.
-    df = pl.read_json(input_file, infer_schema_length=100000)  # Number of rows
+    df = pl.read_json(input_file, infer_schema_length=1000000)  # Number of rows
 
     # --- STEP 1: Handle nested lists (arrays) ---
     # Find all columns that contain lists.
