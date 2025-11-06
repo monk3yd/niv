@@ -35,7 +35,7 @@ def transform(input_file: str, output_file: str):
     with open(output_file, "wb") as file:
         # Manually write the header first.
         header_df = df.head(0)
-        header_df.write_csv(file)
+        header_df.write_csv(file, separator=";")
 
         # Iterate over the DataFrame in chunks (slices) and write them.
         with tqdm(total=total_rows, desc="Writing CSV", unit=" rows") as pbar:
@@ -43,7 +43,7 @@ def transform(input_file: str, output_file: str):
                 batch_df = df.slice(offset, batch_size)
 
                 # Write each batch without the header.
-                batch_df.write_csv(file, include_header=False)
+                batch_df.write_csv(file, include_header=False, separator=";")
                 pbar.update(len(batch_df))
 
     # Write the fully flattened DataFrame to the CSV file.
