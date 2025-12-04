@@ -31,6 +31,7 @@ def transform(input_file: str, output_file: str):
         batch_size=50000,
         infer_schema_length=100000,
         truncate_ragged_lines=True,
+        separator=";"
     )
 
     # Initialize variables for the loop
