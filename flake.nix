@@ -148,6 +148,7 @@
                 export UV_PYTHON_PREFERENCE=system
                 export REPO_ROOT=$(git rev-parse --show-toplevel)
 
+                uv sync
                 . .devenv/state/venv/bin/activate
               '';
 

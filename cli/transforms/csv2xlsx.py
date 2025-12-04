@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 def transform(input_file: str, output_file: str):
     """
-    Converts a large CSV file to an XLSX (Excel) file with a progress bar, 
+    Converts a large CSV file to an XLSX (Excel) file with a progress bar,
     using a memory-efficient streaming approach.
     """
     # Get the total number of rows for the progress bar.
@@ -20,13 +20,18 @@ def transform(input_file: str, output_file: str):
             "constant_memory": True,
             "strings_to_urls": False,
             "use_zip64": True,
-        }
+        },
     )
     worksheet = workbook.add_worksheet()
 
     # Create a batched CSV reader to process the file in chunks.
     # The batch_size can be adjusted based on your available RAM.
-    reader = pl.read_csv_batched(input_file, batch_size=50000, infer_schema_length=100000)
+    reader = pl.read_csv_batched(
+        input_file,
+        batch_size=50000,
+        infer_schema_length=100000,
+        truncate_ragged_lines=True,
+    )
 
     # Initialize variables for the loop
     header_written = False
@@ -36,7 +41,6 @@ def transform(input_file: str, output_file: str):
     with tqdm(total=total_rows, desc="Converting CSV to XLSX", unit="rows") as pbar:
         # Loop unitl no more batches are returned.
         while True:
-
             # Fetch the next batch (we fetch one at a time).
             batches = reader.next_batches(1)
 
@@ -68,9 +72,9 @@ def get_line_count(file_path):
     """Counts the number of lines in a file without loading it into memory."""
     try:
         # A fast way to count lines on Unix-like systems.
-        return int(subprocess.check_output(['wc', '-l', file_path]).split()[0]) - 1
+        return int(subprocess.check_output(["wc", "-l", file_path]).split()[0]) - 1
     except (FileNotFoundError, ValueError):
         # Fallback for other systems or if 'wc' is not available.
-        with open(file_path, 'r') as f:
+        with open(file_path, "r") as f:
             count = sum(1 for line in f)
         return count - 1 if count > 0 else 0
